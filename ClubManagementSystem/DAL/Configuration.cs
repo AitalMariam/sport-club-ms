@@ -14,6 +14,9 @@
 
     public sealed class Configuration : DbMigrationsConfiguration<ModelContext>
     {
+        /// <summary>
+        /// Configuration
+        /// </summary>
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
@@ -78,6 +81,13 @@
             RoleAdmin.Authorizations.Add(UserAutorization);
 
 
+           //ChampionshipRanking
+
+            Authorization ChampionshipRankingAutorization = new Authorization();
+            CityAutorization.BusinessEntity = typeof(ChampionshipRanking).FullName;
+            RoleAdmin.Authorizations.Add(ChampionshipRankingAutorization);
+            //
+
             Authorization CityAutorization = new Authorization();
             CityAutorization.BusinessEntity = typeof(City).FullName;
             RoleAdmin.Authorizations.Add(CityAutorization);
@@ -86,6 +96,8 @@
             Authorization CountryAutorization = new Authorization();
             CountryAutorization.BusinessEntity = typeof(Country).FullName;
             RoleAdmin.Authorizations.Add(CountryAutorization);
+
+
 
             context.SaveChanges();
 
@@ -117,10 +129,39 @@
             // Sport Club Management System
             //---------------------------------------------------------
 
+            // 
             // Admin Autorization
+            //
             Authorization GroupAgeAutorization = new Authorization();
             GroupAgeAutorization.BusinessEntity = typeof(GroupAge).FullName;
             RoleAdmin.Authorizations.Add(GroupAgeAutorization);
+            context.SaveChanges();
+
+
+
+
+            Authorization BeltAutorization = new Authorization();
+            BeltAutorization.BusinessEntity = typeof(Belt).FullName;
+            RoleAdmin.Authorizations.Add(BeltAutorization);
+
+
+            // Belt Data
+            context.Belts.AddOrUpdate(
+                           r => r.Reference
+                        ,
+            new Belt()
+            {
+                Description = "descA",
+                levelofThebelt = "levA",
+                NameofTheBelt = new LocalizedString() { English = "Name", French = "Nom" ,Arab= "إسم الخزام" },
+                //  Description = new LocalizedString() { English = "Description", French = "Description" },
+                //levelofThebelt = new LocalizedString() { English = "Name", French = "Nom" }
+            });
+
+
+            Authorization EducationLevelAutorization = new Authorization();
+            EducationLevelAutorization.BusinessEntity = typeof(EducationLevel).FullName;
+            RoleAdmin.Authorizations.Add(EducationLevelAutorization);
 
             Authorization TournamentCategoryAuthorisation = new Authorization();
             TournamentCategoryAuthorisation.BusinessEntity = typeof(TournamentCategory).FullName;
@@ -139,7 +180,55 @@
             Authorization ExpensesCategoryAuthorization = new Authorization();
             ExpensesCategoryAuthorization.BusinessEntity = typeof(ExpenseCategory).FullName;
             RoleAdmin.Authorizations.Add(ExpensesCategoryAuthorization);
+
             context.SaveChanges();
+
+            // GroupeAge Data
+            context.GroupAges.AddOrUpdate(
+                            r => r.Reference
+                         ,
+             new GroupAge()
+             {
+                 Reference = "Small",
+                 SmallestYear = 7,
+                 LargestYear = 11,
+                 NameOfCategory = new LocalizedString() { Arab = "صغار", English = "Small", French = "Petit" }
+             },
+            
+              new GroupAge()
+              {
+                  Reference = "Boys",
+                  SmallestYear = 12,
+                  LargestYear = 14,
+                  NameOfCategory = new LocalizedString() { Arab = "فتيان", English = "Boys", French = "Garçons" }
+              },
+               new GroupAge()
+               {
+                   Reference = "Young",
+                   SmallestYear = 15,
+                   LargestYear = 17,
+                   NameOfCategory = new LocalizedString() { Arab = "شباب", English = "Young", French = "Jeunes" }
+               },
+               new GroupAge()
+               {
+                   Reference = "Senior",
+                   SmallestYear = 18,
+                   LargestYear = 100,
+                   NameOfCategory = new LocalizedString() { Arab = "كبار", English = "Senior", French = "Supérieur" }
+               }
+              
+
+             );
+            //Education Level data
+            //context.EducationLevels.AddOrUpdate(
+            //               r => r.Reference,
+            //               new EducationLevel()
+            //               {
+            //                   Name = "Primary",
+
+
+            //               }
+
         }
     }
 }
